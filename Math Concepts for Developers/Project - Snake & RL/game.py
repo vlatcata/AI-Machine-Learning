@@ -23,7 +23,7 @@ BLUE2 = (0, 100, 255)
 BLACK = (0,0,0)
 
 BLOCK_SIZE = 20
-SPEED = 40
+SPEED = 1000
 
 class SnakeGameAI:
     
@@ -65,6 +65,9 @@ class SnakeGameAI:
                 pygame.quit()
                 quit()
         
+        # Store previous distance to food (for directional reward)
+        prev_dist = abs(self.head.x - self.food.x) + abs(self.head.y - self.food.y)
+        
         # 2. move
         self._move(action) # update the head
         self.snake.insert(0, self.head)
@@ -72,10 +75,21 @@ class SnakeGameAI:
         # 3. check if game over
         reward = 0
         game_over = False
+        # Prevents endless loops (bigger snake more moves allowed)
         if self.is_collision() or self.frame_iteration > 100*len(self.snake):
             game_over = True
             reward = -10
             return reward, game_over, self.score
+        
+        nearby_body = 0
+        directions = [
+            (-20, 0), (20, 0), (0, -20), (0, 20),  # Adjacent
+            (-20, -20), (20, -20), (-20, 20), (20, 20)  # Diagonals
+        ]
+
+        for dx, dy in directions:
+            if Point(self.head.x + dx, self.head.y + dy) in self.snake[1:]:
+                nearby_body += 1
             
         # 4. place new food or just move
         if self.head == self.food:
@@ -84,6 +98,15 @@ class SnakeGameAI:
             self._place_food()
         else:
             self.snake.pop()
+
+        # Directional rewards
+        new_dist = abs(self.head.x - self.food.x) + abs(self.head.y - self.food.y)
+        reward += 1.0 if new_dist < prev_dist else -0.5
+        reward += -0.1 * nearby_body
+        
+        print(f"Move: {'Left' if action[0] else 'Right' if action[1] else 'Straight'} | " 
+            f"Dist: {prev_dist:.1f}→{new_dist:.1f} | "
+            f"Body blocks: {nearby_body} | Reward: {reward:.1f}")
         
         # 5. update ui and clock
         self._update_ui()

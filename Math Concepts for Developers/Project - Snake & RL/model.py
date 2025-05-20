@@ -7,12 +7,15 @@ import os
 class Linear_QNet(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super().__init__()
+        # Two hidden layers for better pattern recognition
         self.linear1 = nn.Linear(input_size, hidden_size)
-        self.linear2 = nn.Linear(hidden_size, output_size)
+        self.linear2 = nn.Linear(hidden_size, hidden_size)
+        self.linear3 = nn.Linear(hidden_size, output_size)
 
     def forward(self, x):
         x = F.relu(self.linear1(x))
-        x = self.linear2(x)
+        x = F.relu(self.linear2(x))
+        x = self.linear3(x)
         return x
     
     def save(self, file_name='model.pth'):
@@ -54,12 +57,12 @@ class QTrainer:
         for index in range(len(done)): # Iterating over all games (all inputs have the same size/length)
             Q_new = reward[index]
             if not done[index]:
+                # Q_new = r + y * max(next_predicted Q value) -> only do this if not done
                 Q_new = reward[index] + self.gamma * torch.max(self.model(next_state[index]))
 
             # target[batch_index][max Q value index] = Q_new | argmax returns the index of the max Q value
             target[index][torch.argmax(action).item()] = Q_new 
 
-        # 2: Q_new = r + y * max(next_predicted Q value) -> only do this if not done
         self.optimizer.zero_grad() # clear previous gradients
         loss = self.criterion(target, pred)
         loss.backward() # backpropagation

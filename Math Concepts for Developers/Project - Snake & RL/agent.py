@@ -16,7 +16,7 @@ class Agent:
         self.epsilon = 0 # control randomness
         self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft()
-        self.model = Linear_QNet(11, 256, 3)
+        self.model = Linear_QNet(19, 256, 3)
         self.trainer = QTrainer(self.model, learning_rate=LEARNING_RATE, gamma=self.gamma)
 
     def get_state(self, game):
@@ -64,6 +64,23 @@ class Agent:
             game.food.y > game.head.y  # food down
         ]
 
+        # Add body proximity detection
+        head = game.snake[0]
+        directions = [
+            (-20, 0),   # left
+            (20, 0),    # right
+            (0, -20),   # up
+            (0, 20),    # down
+            (-20, -20), # top-left
+            (20, -20),  # top-right
+            (-20, 20),  # bottom-left
+            (20, 20)    # bottom-right
+        ]
+
+        for dx, dy in directions:
+            point = Point(head.x + dx, head.y + dy)
+            state.append(1 if point in game.snake[1:] else 0)
+
         return np.array(state, dtype=int)
 
     def remember(self, state, action, reward, next_state, done):
@@ -100,7 +117,7 @@ class Agent:
 def train():
     plot_scores = []
     plot_mean_scores = []
-    total_score = 0
+    total_score = 0 
     max_score = 0
     agent = Agent()
     game = SnakeGameAI()
