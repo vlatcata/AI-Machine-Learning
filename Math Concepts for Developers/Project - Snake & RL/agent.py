@@ -11,13 +11,21 @@ BATCH_SIZE = 1000
 LEARNING_RATE = 0.001
 
 class Agent:
-    def __init__(self):
+    def __init__(self, load_model=False, continue_training=False):
         self.number_of_games = 0
-        self.epsilon = 0 # control randomness
+        self.epsilon = 80 # control randomness
         self.gamma = 0.9 # discount rate
         self.memory = deque(maxlen=MAX_MEMORY) # popleft()
         self.model = Linear_QNet(19, 256, 3)
         self.trainer = QTrainer(self.model, learning_rate=LEARNING_RATE, gamma=self.gamma)
+
+        if load_model:
+            success = self.model.load('model.pth')
+            if success and continue_training:
+                self.model.train()  # Set the model to training mode if continuing training
+                self.epsilon = 50 # Higher than fully trained, lower than new
+            else:
+                self.epsilon = 20 # Start with some exploration
 
     def get_state(self, game):
         head = game.snake[0]
@@ -101,7 +109,7 @@ class Agent:
     def get_action(self, state):
         # random moves: tradeoff exploration vs exploitation
         # The more games we play, the less random moves we make
-        self.epsilon = 80 - self.number_of_games
+        self.epsilon -= self.number_of_games
         action = [0, 0, 0]
         if random.randint(0, 200) < self.epsilon:
             move = random.randint(0, 2)
@@ -114,12 +122,12 @@ class Agent:
             
         return action
 
-def train():
+def train(load_model=False, continue_training=False):
     plot_scores = []
     plot_mean_scores = []
     total_score = 0 
     max_score = 0
-    agent = Agent()
+    agent = Agent(load_model=load_model, continue_training=continue_training)
     game = SnakeGameAI()
 
     while True:
