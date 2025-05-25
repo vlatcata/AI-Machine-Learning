@@ -104,7 +104,7 @@ class SnakeGameAI:
         reward += 1.0 if new_dist < prev_dist else -0.5
         reward += -0.1 * nearby_body
         
-        print(f"Move: {'Left' if action[0] else 'Right' if action[1] else 'Straight'} | " 
+        print(f"Move: {'Straight' if action[0] else 'Right' if action[1] else 'Left'} | " 
             f"Dist: {prev_dist:.1f}→{new_dist:.1f} | "
             f"Body blocks: {nearby_body} | Reward: {reward:.1f}")
         
@@ -146,7 +146,7 @@ class SnakeGameAI:
         index = clock_wise.index(self.direction)
 
         if np.array_equal(action, [1, 0, 0]):
-            new_direction = clock_wise[index] # no change
+            new_direction = clock_wise[index] # straight - no change
         elif np.array_equal(action, [0, 1, 0]):
             next_index = (index + 1) % 4
             new_direction = clock_wise[next_index] # turn right

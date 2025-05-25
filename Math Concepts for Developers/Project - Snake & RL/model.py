@@ -12,11 +12,13 @@ class Linear_QNet(nn.Module):
         self.linear2 = nn.Linear(hidden_size, hidden_size)
         self.linear3 = nn.Linear(hidden_size, output_size)
 
-    def forward(self, x):
-        x = F.relu(self.linear1(x))
-        x = F.relu(self.linear2(x))
-        x = self.linear3(x)
-        return x
+    def forward(self, state):
+        test = self.linear1(state)
+        # ReLU(x) = max(0, x) -> activation function
+        state = F.relu(self.linear1(state))
+        state = F.relu(self.linear2(state))
+        state = self.linear3(state)
+        return state
     
     def save(self, file_name='model.pth'):
         model_folder_path = '.\model'
