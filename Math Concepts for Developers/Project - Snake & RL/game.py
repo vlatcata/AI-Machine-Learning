@@ -88,7 +88,7 @@ class SnakeGameAI:
         ]
 
         for dx, dy in directions:
-            if Point(self.head.x + dx, self.head.y + dy) in self.snake[1:]:
+            if Point(self.head.x + dx, self.head.y + dy) in self.snake[2:]:
                 nearby_body += 1
             
         # 4. place new food or just move

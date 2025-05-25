@@ -87,7 +87,7 @@ class Agent:
 
         for dx, dy in directions:
             point = Point(head.x + dx, head.y + dy)
-            state.append(1 if point in game.snake[1:] else 0)
+            state.append(1 if point in game.snake[2:] else 0)
 
         return np.array(state, dtype=int)
 
