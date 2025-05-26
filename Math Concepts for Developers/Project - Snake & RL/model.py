@@ -13,7 +13,6 @@ class Linear_QNet(nn.Module):
         self.linear3 = nn.Linear(hidden_size, output_size)
 
     def forward(self, state):
-        test = self.linear1(state)
         # ReLU(x) = max(0, x) -> activation function
         state = F.relu(self.linear1(state))
         state = F.relu(self.linear2(state))
@@ -38,7 +37,7 @@ class Linear_QNet(nn.Module):
             print(f'Model loaded from {file_name}')
             return True
         else:
-            print(f'No saved movel found at {file_name}')
+            print(f'No saved model found at {file_name}')
             return False
 
 
@@ -80,6 +79,6 @@ class QTrainer:
 
         self.optimizer.zero_grad() # clear previous gradients
         loss = self.criterion(target, pred)
-        loss.backward() # backpropagation
+        loss.backward() # backpropagation - compute gradients using greadient descent
 
         self.optimizer.step() # update weights
