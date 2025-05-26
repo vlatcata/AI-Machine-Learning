@@ -64,7 +64,8 @@ class QTrainer:
             next_state = torch.unsqueeze(next_state, 0)
             done = (done, )
 
-        # 1: predicted Q values with current state
+        # Early on, the predictions are random values, the more we correct the model, the more accurate the predictions become
+        # predicted Q values with old state
         pred = self.model(state)
 
         target = pred.clone()
@@ -74,6 +75,7 @@ class QTrainer:
                 # Q_new = r + y * max(next_predicted Q value) -> only do this if not done
                 Q_new = reward[index] + self.gamma * torch.max(self.model(next_state[index]))
 
+            # We update the value of the action taken in the old state
             # target[batch_index][max Q value index] = Q_new | argmax returns the index of the max Q value
             target[index][torch.argmax(action).item()] = Q_new 
 
