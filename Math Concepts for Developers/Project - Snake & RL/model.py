@@ -79,6 +79,10 @@ class QTrainer:
             # target[batch_index][max Q value index] = Q_new | argmax returns the index of the max Q value
             target[index][torch.argmax(action).item()] = Q_new 
 
+        # We calculate the loss based on the model’s prediction and the actual value.
+        # Then we use backpropagation to compute the gradient (steepest increase) of the loss function with respect to each weight.
+        # Then we use gradient descent to update the weights/parameters in the opposite direction, to reduce the loss. weight := weight - lr * grad(loss)
+        # Weight: parameters of the model (float values)
         self.optimizer.zero_grad() # clear previous gradients
         loss = self.criterion(target, pred)
         loss.backward() # backpropagation - compute gradients using greadient descent
