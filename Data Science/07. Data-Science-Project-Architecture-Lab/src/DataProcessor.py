@@ -11,7 +11,7 @@ CATEGORY_MAPPINGS = {
     'EducationLevel': {0: 'None', 1: 'High School', 2: "Bachelor's", 3: 'Higher'}
     }
 
-INVERSE_CATEGORY_MAPPINGS = {
+INVERSE_CATEGORY_MAPPINGS = { 
             'Gender': {'Male': 0, 'Female': 1},
             'Ethnicity': {'Caucasian': 0, 'African American': 1, 'Asian': 2, 'Other': 3},
             'EducationLevel': {'None': 0, 'High School': 1, "Bachelor's": 2, 'Higher': 3}
