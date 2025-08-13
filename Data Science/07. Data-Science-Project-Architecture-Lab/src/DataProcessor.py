@@ -31,18 +31,26 @@ def preprocess_data(astma: pd.DataFrame, drop_cols=None, category_mappings=None)
     astma = astma.copy()
         
     # Initialize constants
-    if drop_cols is not None:
-        drop_cols = ["DoctorInCharge", "PatientID"]
-    if category_mappings is None:
-        category_mappings = CATEGORY_MAPPINGS
+    try:
+        if drop_cols is None:
+            drop_cols = ["DoctorInCharge", "PatientID"]
+        if category_mappings is None:
+            category_mappings = CATEGORY_MAPPINGS
+    except Exception as e:
+        print(f"Error initializing constants: {e}")
+        raise e
 
     # Drop specified columns
     astma.drop(columns=drop_cols, inplace=True)
 
     # Map numeric values to categorical
-    for col, mapping in category_mappings.items():
-        if col in astma.columns:
-            astma[col] = astma[col].astype('category').map(mapping)
+    try:
+        for col, mapping in category_mappings.items():
+            if col in astma.columns:
+                astma[col] = astma[col].astype('category').map(mapping)
+    except Exception as e:
+        print(f"Error mapping categorical columns: {e}")
+        raise e
 
     return astma
 
@@ -59,10 +67,14 @@ def manipulate_features(astma: pd.DataFrame, inverse_mappings=None, lifestyle_co
     
     def _engineer_features(astma: pd.DataFrame):
         """ Feature engineering operations """
-        astma['TotalExposure'] = astma[['PollenExposure', 'PollutionExposure', 'DustExposure']].sum(axis=1)
-        astma['MedicalComplicationsCount'] = astma[['FamilyHistoryAsthma', 'HistoryOfAllergies', 'Eczema', 'HayFever', 'GastroesophagealReflux']].sum(axis=1)
-        astma['SymptomsCount'] = astma[['Wheezing', 'ShortnessOfBreath', 'ChestTightness', 'Coughing', 'NighttimeSymptoms']].sum(axis=1)
-        
+        try:
+            astma['TotalExposure'] = astma[['PollenExposure', 'PollutionExposure', 'DustExposure']].sum(axis=1)
+            astma['MedicalComplicationsCount'] = astma[['FamilyHistoryAsthma', 'HistoryOfAllergies', 'Eczema', 'HayFever', 'GastroesophagealReflux']].sum(axis=1)
+            astma['SymptomsCount'] = astma[['Wheezing', 'ShortnessOfBreath', 'ChestTightness', 'Coughing', 'NighttimeSymptoms']].sum(axis=1)
+        except Exception as e:
+            print(f"Error during feature engineering: {e}")
+            raise e
+            
         return astma
 
     def _normalize_columns(astma: pd.DataFrame, lifestyle_cols: list, lung_function_cols: list, exposure_cols: list):
@@ -77,15 +89,19 @@ def manipulate_features(astma: pd.DataFrame, inverse_mappings=None, lifestyle_co
         scaler = preprocessing.MinMaxScaler()
 
         # Normalize all columns
-        astma[lifestyle_cols] = scaler.fit_transform(astma[lifestyle_cols])
-        astma['LifestyleScore'] = astma[lifestyle_cols].mean(axis=1)
+        try:
+            astma[lifestyle_cols] = scaler.fit_transform(astma[lifestyle_cols])
+            astma['LifestyleScore'] = astma[lifestyle_cols].mean(axis=1)
 
-        astma[lung_function_cols] = scaler.fit_transform(astma[lung_function_cols])
-        astma['LungFunctionScore'] = astma[lung_function_cols].mean(axis=1)
+            astma[lung_function_cols] = scaler.fit_transform(astma[lung_function_cols])
+            astma['LungFunctionScore'] = astma[lung_function_cols].mean(axis=1)
 
-        astma[exposure_cols] = scaler.fit_transform(astma[exposure_cols])
-        astma['EnvironmentalExposure'] = astma[exposure_cols].mean(axis=1)
-        
+            astma[exposure_cols] = scaler.fit_transform(astma[exposure_cols])
+            astma['EnvironmentalExposure'] = astma[exposure_cols].mean(axis=1)
+        except Exception as e:
+            print(f"Error during normalization: {e}")
+            raise e
+
         return astma
 
     astma = astma.copy()
@@ -95,13 +111,21 @@ def manipulate_features(astma: pd.DataFrame, inverse_mappings=None, lifestyle_co
         inverse_mappings = INVERSE_CATEGORY_MAPPINGS
 
     # Encode categorical columns
-    for col, mapping in inverse_mappings.items():
-        if col in astma.columns:
-            astma[col] = astma[col].map(mapping).astype('Int64')
+    try:
+        for col, mapping in inverse_mappings.items():
+            if col in astma.columns:
+                astma[col] = astma[col].map(mapping).astype('Int64')
+    except Exception as e:
+        print(f"Error encoding categorical columns: {e}")
+        raise e
 
     # Convert all int64 columns to float64
-    int_cols = astma.select_dtypes(include=['int64']).columns
-    astma[int_cols] = astma[int_cols].astype('float')
+    try:
+        int_cols = astma.select_dtypes(include=['int64']).columns
+        astma[int_cols] = astma[int_cols].astype('float64')
+    except Exception as e:
+        print(f"Error converting int64 columns to float64: {e}")
+        raise e
 
     # Feature engineering
     astma = _engineer_features(astma)
