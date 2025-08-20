@@ -1,0 +1,22 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Gradio
+.gradio/
+
+# DVC cache (if you ever use it)
+.dvc/cache/
+
+# OS stuff
+.DS_Store
+Thumbs.db
