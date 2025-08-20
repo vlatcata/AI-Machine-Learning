@@ -5,11 +5,11 @@ aiosignal @ file:///tmp/build/80754af9/aiosignal_1637843061372/work
 altair @ file:///C:/b/abs_0b1avjyzoc/croot/altair_1743016738596/work
 annotated-types==0.7.0
 anyio==4.10.0
--e git+https://github.com/vlatcata/AI-Machine-Learning.git@c6cf0de07f70046491142d020d7f45ab65debf51#egg=AsthmaProject&subdirectory=data science\project - best video game analysis
 asttokens @ file:///home/conda/feedstock_root/build_artifacts/asttokens_1733250440834/work
 attrs @ file:///C:/b/abs_89hmquz5ga/croot/attrs_1734533130810/work
 backcall==0.2.0
 beautifulsoup4==4.13.4
+-e git+https://github.com/vlatcata/AI-Machine-Learning.git@86b7ff7ddfe7696402e44b1bce420f2d85eb195e#egg=BestVideoGameAnalysis&subdirectory=data science\project - best video game analysis
 bleach==6.2.0
 blinker @ file:///C:/b/abs_b1i87khtob/croot/blinker_1737448732095/work
 Bottleneck @ file:///C:/b/abs_816hr2khp1/croot/bottleneck_1731058648110/work
