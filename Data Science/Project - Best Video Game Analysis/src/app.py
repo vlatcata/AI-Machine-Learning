@@ -34,7 +34,7 @@ if not DATA_PATH.exists():
     raise FileNotFoundError(f"CSV not found at {DATA_PATH}. Adjust DATA_PATH accordingly.")
 _games_raw = pd.read_csv(DATA_PATH)
 
-# ---------- CORE FN ----------
+# ---------- CORE FUNCTION ----------
 def compute_topN(
     w_owners=DEFAULT_WEIGHTS["owners_count"],
     w_ret=DEFAULT_WEIGHTS["retention_score"],
@@ -117,12 +117,12 @@ def compute_topN(
 demo = gr.Interface(
     fn=compute_topN,
     inputs=[
-        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["owners_count"],           step=0.01, label="owners_count weight"),
-        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["retention_score"],        step=0.01, label="retention_score weight"),
-        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["peak_concurrent_users"],  step=0.01, label="peak_concurrent_users weight"),
-        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["recommendations"],        step=0.01, label="recommendations weight"),
-        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["review_score"],           step=0.01, label="review_score weight"),
-        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["playtime_score"],         step=0.01, label="playtime_score weight"),
+        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["owners_count"], step=0.01, label="owners_count weight"),
+        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["retention_score"], step=0.01, label="retention_score weight"),
+        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["peak_concurrent_users"], step=0.01, label="peak_concurrent_users weight"),
+        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["recommendations"], step=0.01, label="recommendations weight"),
+        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["review_score"], step=0.01, label="review_score weight"),
+        gr.Slider(0, 1, value=DEFAULT_WEIGHTS["playtime_score"], step=0.01, label="playtime_score weight"),
         gr.Slider(5, 50, value=10, step=1, label="Top N"),
     ],
     outputs=[
