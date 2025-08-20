@@ -20,3 +20,6 @@ venv/
 # OS stuff
 .DS_Store
 Thumbs.db
+
+# egg Info
+*.egg-info/

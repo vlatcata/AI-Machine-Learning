@@ -8,10 +8,14 @@ def scrape_steam_data():
     Returns:
         pd.DataFrame: A CSV DataFrame file 'steam_games_combined.csv' containing combined data from Steam API and Steam Spy.
     """
-    
     print("Starting to scrape Steam data")
-    # Step 1: Get all Steam apps
-    def get_steam_apps():
+    # Get all Steam apps
+    def _get_steam_apps():
+        """Fetch all Steam apps from the API.
+
+        Returns:
+            pd.DataFrame: A DataFrame containing all Steam apps.
+        """
         steam_apps = []
         count = 0
         
@@ -39,12 +43,20 @@ def scrape_steam_data():
 
         return pd.DataFrame(steam_apps)
 
-    steam_df = get_steam_apps()
+    steam_df = _get_steam_apps()
     steam_df.rename(columns={'steam_appid': 'appid'}, inplace=True)
     print(f"Steam apps DataFrame generation finished")
 
-    # Step 2: Function to get Steam Spy data
-    def get_steamspy_data(appid):
+    # Function to get Steam Spy data
+    def _get_steamspy_data(appid):
+        """Fetch Steam Spy data for a specific app.
+
+        Args:
+            appid (int): The Steam app ID.
+
+        Returns:
+            pd.DataFrame: A DataFrame containing the Steam Spy data for the app.
+        """
         url = f"https://steamspy.com/api.php?request=appdetails&appid={appid}"
         try:
             resp = requests.get(url, timeout=5)
@@ -56,12 +68,12 @@ def scrape_steam_data():
         except:
             return None
 
-    # Step 3: Loop over apps and collect Steam Spy data (only real games)
+    # Loop over apps and collect Steam Spy data (only real games)
     steamspy_list = []
     count = 0
 
     for appid in steam_df['appid']:
-        data = get_steamspy_data(appid)
+        data = _get_steamspy_data(appid)
         if data:
             steamspy_list.append(data)
         count += 1
@@ -72,10 +84,10 @@ def scrape_steam_data():
     steamspy_df = pd.DataFrame(steamspy_list)
     print(f"Steam Spy DataFrame generation finished")
 
-    # Step 4: Merge Steam API metadata with Steam Spy stats
+    # Merge Steam API metadata with Steam Spy stats
     merged_df = pd.merge(steam_df, steamspy_df, on='appid', how='inner')
 
-    # Step 5: Save to CSV
+    # Save to CSV
     merged_df.to_csv("steam_games_combined.csv", index=False)
     
 if __name__ == "__main__":

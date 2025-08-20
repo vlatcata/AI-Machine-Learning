@@ -1,7 +1,0 @@
-setup.py
-AsthmaProject.egg-info/PKG-INFO
-AsthmaProject.egg-info/SOURCES.txt
-AsthmaProject.egg-info/dependency_links.txt
-AsthmaProject.egg-info/top_level.txt
-src/__init__.py
-src/utils.py
