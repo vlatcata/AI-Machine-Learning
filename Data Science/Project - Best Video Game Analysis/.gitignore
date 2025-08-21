@@ -25,4 +25,4 @@ Thumbs.db
 *.egg-info/
 
 # dvc
-!environment*.json
+dvc-storage-service-account.json
