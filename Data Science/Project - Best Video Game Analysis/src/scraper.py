@@ -88,7 +88,7 @@ def scrape_steam_data():
     merged_df = pd.merge(steam_df, steamspy_df, on='appid', how='inner')
 
     # Save to CSV
-    merged_df.to_csv("steam_games_combined.csv", index=False)
+    merged_df.to_csv("../data/steam_games_combined.csv", index=False)
     
 if __name__ == "__main__":
     scrape_steam_data()
