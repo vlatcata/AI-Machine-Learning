@@ -6,7 +6,7 @@ from sklearn.preprocessing import MinMaxScaler
 import gradio as gr
 
 # ---------- CONFIG ----------
-DATA_PATH = Path(__file__).parent / "data" / "best_video_games.csv"
+DATA_PATH = Path(__file__).parent / "../" / "data" / "best_video_games.csv"
 
 DEFAULT_WEIGHTS = {
     "owners_count": 0.15,
