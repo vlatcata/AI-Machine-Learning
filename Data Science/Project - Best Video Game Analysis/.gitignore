@@ -23,3 +23,6 @@ Thumbs.db
 
 # egg Info
 *.egg-info/
+
+# dvc
+!environment*.json
