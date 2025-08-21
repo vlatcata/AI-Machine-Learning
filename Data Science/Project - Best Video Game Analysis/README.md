@@ -1,13 +1,62 @@
-This projects aims to scientifically calcuclate the best performing video games (on Steam) by using a custom BGI (Best Game Index).
+🎮 Best Video Game Analysis
 
-**Context:**  
-The video game industry is huge, with thousands of games released every year. Only a small part of them manage to become popular and keep players engaged. Finding out what makes these games successful can help both developers and players.  
+📌 Abstract
 
-**Aims:**  
-The goal of this project is to build a **Best Game Index (BGI)** that combines several factors into one score, showing which games stand out.  
+This project analyzes a large dataset of video games from Steam and SteamSpy to identify the top-performing titles based on custom metrics. It combines gameplay, review, and popularity data into a single score (GameScore) that ranks games more reliably than raw sales or reviews alone.
 
-**Methods:**  
-I first built a custom scraper to collect data from the **Steam API** and **SteamSpy API**, but due to strict request limits it was too slow to use directly. Instead, I used a ready dataset with the same information. From it, I created new features like a *review score* (that gives more weight to positive reviews) and a *playtime score*. All features were normalized to be on the same scale. A weighted formula was then used to calculate the BGI. To test if my weights were reliable, I added random noise and checked if the top games stayed the same.  
+🚀 Features
 
-**Results:**  
-Most games in the dataset perform poorly, while only a few dominate in ownership, playtime, and community engagement. The BGI proved stable: even after adding noise to the weights, the top-10 list of games stayed about 90% the same. This shows the index is not too dependent on exact weight choices and works well to highlight the most successful games.  
+Custom GameScore formula that balances owners, retention, concurrent players, reviews, and playtime.
+
+Data cleaning and exploratory analysis (distributions, correlations, sanity checks).
+
+Interactive visualization (Plotly & Gradio).
+
+Sensitivity analysis to test weight stability.
+
+Reproducible pipeline (documented steps to rerun).
+
+📂 Dataset
+
+The dataset is too large for GitHub.
+Download it here: [Kaggle Dataset](https://www.kaggle.com/datasets/fronkongames/steam-games-dataset/data)
+
+Place the file into the data/ folder before running.
+
+🛠️ Installation
+
+Clone the repo and install dependencies:
+
+```
+git clone https://github.com/vlatcata/AI-Machine-Learning.git
+cd "Data Science/Project - Best Video Game Analysis"
+pip install -r requirements.txt
+```
+
+▶️ Usage
+
+Run the notebook to reproduce results:
+
+```
+jupyter notebook notebooks/Best\ Video\ Game\ Analysis.ipynb
+```
+
+Or launch the Gradio app for interactive exploration:
+
+```
+python app.py
+```
+
+📊 Results
+
+The GameScore index provides a balanced ranking of games.
+
+Top results remain stable under noise testing (9/10 overlap on average).
+
+Visualizations confirm key trends in player engagement and review behavior.
+
+📑 Reproducibility
+
+Full preprocessing, analysis, and model evaluation steps are documented in the notebook.
+
+All results can be reproduced by downloading the dataset and running the provided code.
