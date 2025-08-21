@@ -1,12 +1,10 @@
 ## 🎮 Best Video Game Analysis
 
-
-📌 Abstract
+- 📌 Abstract
 
 This project analyzes a large dataset of video games from Steam and SteamSpy to identify the top-performing titles based on custom metrics. It combines gameplay, review, and popularity data into a single score (GameScore) that ranks games more reliably than raw sales or reviews alone.
 
-
-🚀 Features
+- 🚀 Features
 
 Custom GameScore formula that balances owners, retention, concurrent players, reviews, and playtime.
 
@@ -18,8 +16,7 @@ Sensitivity analysis to test weight stability.
 
 Reproducible pipeline (documented steps to rerun).
 
-
-🔄 Data Collection (Custom Scraper)
+- 🔄 Data Collection (Custom Scraper)
 
 This project includes a custom **scraper** (`scraper.py`) that automatically collects fresh data from the **Steam API** and **Steam Spy API**.  
 
@@ -30,16 +27,14 @@ python scraper.py
 
 The scraper works correctly, but fetching data from the Steam API takes a long time due to strict rate limits and Steam Spy availability.
 
-
-📂 Dataset
+- 📂 Dataset
 
 The dataset is too large for GitHub.
 Download it here: [Kaggle Dataset](https://www.kaggle.com/datasets/fronkongames/steam-games-dataset/data)
 
 Place the file into the data/ folder before running.
 
-
-🛠️ Installation
+- 🛠️ Installation
 
 Clone the repo and install dependencies:
 
@@ -49,8 +44,7 @@ cd "Data Science/Project - Best Video Game Analysis"
 pip install -r requirements.txt
 ```
 
-
-▶️ Usage
+- ▶️ Usage
 
 Run the notebook to reproduce results:
 
@@ -64,8 +58,7 @@ Or launch the Gradio app for interactive exploration:
 python app.py
 ```
 
-
-📊 Results
+- 📊 Results
 
 The GameScore index provides a balanced ranking of games.
 
@@ -73,8 +66,7 @@ Top results remain stable under noise testing (9/10 overlap on average).
 
 Visualizations confirm key trends in player engagement and review behavior.
 
-
-📑 Reproducibility
+- 📑 Reproducibility
 
 Full preprocessing, analysis, and model evaluation steps are documented in the notebook.
 
